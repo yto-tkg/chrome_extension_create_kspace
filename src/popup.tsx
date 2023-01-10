@@ -10,13 +10,13 @@ const Popup = () => {
   }, [count]);
 
   useEffect(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       setCurrentURL(tabs[0].url);
     });
   }, []);
 
   const changeBackground = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       const tab = tabs[0];
       if (tab.id) {
         chrome.tabs.sendMessage(
@@ -35,8 +35,11 @@ const Popup = () => {
   return (
     <>
       <ul style={{ minWidth: "700px" }}>
-        <li>Current URL: {currentURL}</li>
-        <li>Current Time: {new Date().toLocaleTimeString()}</li>
+        <li>ホスト: <input type="text" value="http://localhost" /></li>
+        <li>スペース名: <input type="text" value="test" /></li>
+        <li>作成数: <input type="text" value="1" /></li>
+        <li><button>非公開</button></li>
+        <li><button>ゲストスペース</button></li>
       </ul>
       <button
         onClick={() => setCount(count + 1)}
