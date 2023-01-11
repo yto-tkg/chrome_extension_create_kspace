@@ -1,53 +1,56 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import { useForm } from "react-hook-form";
 
+type FormData = {
+  host: string
+  spaceName: string
+  count: number
+  isPrivate: boolean
+  isGuest: boolean
+}
 const Popup = () => {
-  const [count, setCount] = useState(0);
-  const [currentURL, setCurrentURL] = useState<string>();
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit = handleSubmit((data) => {
+    alert(data["host"])
+    alert(data.spaceName)
+    alert(data.count)
+    alert(data.isPrivate)
+    alert(data.isGuest)
+  })
+
+  // 初期値設定
+  useEffect(() => {
+    setValue("host", "http://localhost")
+  }, [])
 
   useEffect(() => {
-    chrome.action.setBadgeText({ text: count.toString() });
-  }, [count]);
+    setValue("spaceName", "test")
+  }, [])
 
   useEffect(() => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      setCurrentURL(tabs[0].url);
-    });
-  }, []);
-
-  const changeBackground = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      const tab = tabs[0];
-      if (tab.id) {
-        chrome.tabs.sendMessage(
-          tab.id,
-          {
-            color: "#555555",
-          },
-          (msg) => {
-            console.log("result message:", msg);
-          }
-        );
-      }
-    });
-  };
+    setValue("count", 1)
+  }, [])
 
   return (
     <>
-      <ul style={{ minWidth: "700px" }}>
-        <li>ホスト: <input type="text" value="http://localhost" /></li>
-        <li>スペース名: <input type="text" value="test" /></li>
-        <li>作成数: <input type="text" value="1" /></li>
-        <li><button>非公開</button></li>
-        <li><button>ゲストスペース</button></li>
-      </ul>
-      <button
-        onClick={() => setCount(count + 1)}
-        style={{ marginRight: "5px" }}
-      >
-        count up
-      </button>
-      <button onClick={changeBackground}>change background</button>
+      <form onSubmit={onSubmit}>
+        <ul style={{ minWidth: "700px" }}>
+          <li>ホスト: <input type="text" {...register("host")} /></li>
+          <li>スペース名: <input type="text" {...register("spaceName")} /></li>
+          <li>作成数: <input type="text" {...register("count")} /></li>
+          <li><input type="checkbox" {...register("isPrivate")} />非公開</li>
+          <li><input type="checkbox" {...register("isGuest")} />ゲストスペース</li>
+          <li><button type="submit">作成</button></li>
+        </ul>
+      </form >
     </>
   );
 };
