@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-sample",
+  "name": "chrome_extension_create_kspace",
   "version": "1.0.0",
-  "description": "chrome-extension-sample",
+  "description": "chrome_extension_create_kspace",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --config webpack/webpack.dev.js --watch",
@@ -14,11 +14,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tokku5552/chrome-extension-sample.git"
+    "url": "https://github.com/yto-tkg/chrome_extension_create_kspace.git"
   },
   "dependencies": {
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "react-hook-form": "^7.41.5"
   },
   "devDependencies": {
     "@types/chrome": "0.0.158",
