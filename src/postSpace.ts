@@ -1,8 +1,10 @@
 import { PostSpaceRes } from "./types/data"
-import { fetcher, DEFAULT_HOST, CONTEXT, CONTENT_TYPE_JSON, X_CYBOZU_AUTHORIZATION } from "./utils"
+import { fetcher, DEFAULT_HOST, CONTEXT, CONTENT_TYPE_JSON, X_CYBOZU_AUTHORIZATION, CYBOZU_USER_ID, CYBOZU_USER_NAME } from "./utils"
 
 export type PostSpaceParams = {
   host: string
+  userName: string
+  userCode: number
   spaceName: string
   count: number
   isMultiThread: boolean
@@ -30,18 +32,34 @@ const postSpace = async (
       'Authorization': `Basic ${X_CYBOZU_AUTHORIZATION}`
     },
     body: JSON.stringify({
-      id: 1,
       name: postData["spaceName"],
-      members: [
-        {
-          entity: {
-            type: "USER",
-            code: "Administrator"
-          }
-        }
-      ],
+      announcementShown: true,
+      appCreationRight: "EVERYONE",
+      appListShown: true,
+      blobCover: null,
+      coverType: "PRESET",
+      fixedMember: false,
+      force: false,
+      id: null,
+      isGuest : postData["isGuest"],
       isPrivate: postData["isPrivate"],
-      isGuest: postData["isGuest"]
+      members: [
+          {
+              id: CYBOZU_USER_ID,
+              entityId: CYBOZU_USER_ID,
+              code: CYBOZU_USER_ID,
+              entityName: CYBOZU_USER_NAME,
+              name: CYBOZU_USER_NAME,
+              entityType: "USER",
+              isAdmin: true,
+              isRecursive: false,
+          },
+      ],
+      peopleListShown : true,
+      presetCover : "GREEN",
+      relatedLinkListShown : true,
+      threadListShown : true,
+      useMultiThread : postData["isMultiThread"],
     })
   })
 }

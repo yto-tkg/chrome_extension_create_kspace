@@ -2,27 +2,27 @@ export const DEFAULT_HOST = 'http://localhost'
 export const CONTEXT = 'k'
 export const CONTENT_TYPE_JSON = 'appication/json'
 export const X_CYBOZU_AUTHORIZATION = 'QWRtaW5pc3RyYXRvcjpjeWJvenU='
+export const CYBOZU_USER_ID = 1000000
+export const CYBOZU_USER_NAME = 'cybozu'
 
 export const fetcher = async (
   resource: RequestInfo,
   init?: RequestInit,
 ): Promise<any> => {
 
-  debugger;
-  console.log(resource)
-  console.log(init?.headers)
-  console.log(init?.body)
-
   const res = await fetch(resource, init)
+  const resJson = await res.json()
 
   if (!res.ok) {
-    const errorRes = await res.json()
     const error = new Error(
-      errorRes.message ?? 'APIリクエスト中にエラーが発生しました.'
+      resJson.message ?? 'APIリクエスト中にエラーが発生しました.'
     )
     alert(`エラー: ${error.message}`)
-    return ''
+    return null
+  } else if (!resJson.success) {
+    alert(`エラー: ${resJson.message}`)
+    return null
   }
 
-  return res.json()
+  return resJson
 }
