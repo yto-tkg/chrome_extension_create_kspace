@@ -1,5 +1,5 @@
 import { PostSpaceRes } from "./types/data"
-import { fetcher, DEFAULT_HOST, CONTEXT, CONTENT_TYPE_JSON, X_CYBOZU_AUTHORIZATION, CYBOZU_USER_ID, CYBOZU_USER_NAME } from "./utils"
+import { fetcher, DEFAULT_HOST, CONTEXT, CONTENT_TYPE_JSON, X_CYBOZU_AUTHORIZATION, CYBOZU_USER_ID, CYBOZU_USER_NAME, CYBOZU_X_CYBOZU_AHTHORIZATION, ADMINISTRATOR_X_CYBOZU_AUTHORIZATION } from "./utils"
 
 export type PostSpaceParams = {
   host: string
@@ -22,17 +22,19 @@ const postSpace = async (
   postData: PostSpaceParams
 ): Promise<PostSpaceRes> => {
 
+  const xCybozuAhThorization = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_X_CYBOZU_AHTHORIZATION : ADMINISTRATOR_X_CYBOZU_AUTHORIZATION 
+
   return await fetcher(`${postData["host"] ?? DEFAULT_HOST}/${CONTEXT}/api/space/add.json`, {
     method: 'POST',
     headers: {
       Origin: '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'X-Cybozu-Authorization': X_CYBOZU_AUTHORIZATION,
-      'Authorization': `Basic ${X_CYBOZU_AUTHORIZATION}`
+      'X-Cybozu-Authorization': xCybozuAhThorization,
+      'Authorization': `Basic ${xCybozuAhThorization}`
     },
     body: JSON.stringify({
-      name: postData["spaceName"],
+      name: postData["spaceName"] ?? test,
       announcementShown: true,
       appCreationRight: "EVERYONE",
       appListShown: true,
@@ -41,25 +43,25 @@ const postSpace = async (
       fixedMember: false,
       force: false,
       id: null,
-      isGuest : postData["isGuest"],
-      isPrivate: postData["isPrivate"],
+      isGuest: postData["isGuest"] ?? false,
+      isPrivate: postData["isPrivate"] ?? false,
       members: [
-          {
-              id: CYBOZU_USER_ID,
-              entityId: CYBOZU_USER_ID,
-              code: CYBOZU_USER_ID,
-              entityName: CYBOZU_USER_NAME,
-              name: CYBOZU_USER_NAME,
-              entityType: "USER",
-              isAdmin: true,
-              isRecursive: false,
-          },
+        {
+          id: postData["userCode"] ?? CYBOZU_USER_ID,
+          entityId: postData["userCode"] ?? CYBOZU_USER_ID,
+          code: postData["userName"] ?? CYBOZU_USER_NAME,
+          entityName: postData["userName"] ?? CYBOZU_USER_NAME,
+          name: postData["userName"] ?? CYBOZU_USER_NAME,
+          entityType: "USER",
+          isAdmin: true,
+          isRecursive: false,
+        },
       ],
-      peopleListShown : true,
-      presetCover : "GREEN",
-      relatedLinkListShown : true,
-      threadListShown : true,
-      useMultiThread : postData["isMultiThread"],
+      peopleListShown: true,
+      presetCover: "GREEN",
+      relatedLinkListShown: true,
+      threadListShown: true,
+      useMultiThread: postData["isMultiThread"] ?? false,
     })
   })
 }

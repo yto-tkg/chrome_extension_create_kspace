@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import postSpace from "./postSpace";
@@ -24,7 +24,15 @@ const Popup = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      userName: CYBOZU_USER_NAME,
+      host: DEFAULT_HOST,
+      userCode: CYBOZU_USER_ID,
+      spaceName: 'test',
+      count: 1
+    }
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     setMessage('スペースを作成中...')
@@ -51,28 +59,7 @@ const Popup = () => {
       return String(res["id"])
     })
   }
-
-  // 初期値設定
-  useEffect(() => {
-    setValue("host", DEFAULT_HOST)
-  }, [])
-
-  useEffect(() => {
-    setValue("userName", CYBOZU_USER_NAME)
-  })
-
-  useEffect(() => {
-    setValue("userCode", CYBOZU_USER_ID)
-  })
-
-  useEffect(() => {
-    setValue("spaceName", "test")
-  }, [])
-
-  useEffect(() => {
-    setValue("count", 1)
-  }, [])
-
+  
   return (
     <>
       <form onSubmit={onSubmit}>
