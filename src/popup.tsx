@@ -3,12 +3,11 @@ import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import postSpace from "./postSpace";
 import { PostSpaceRes } from "./types/data";
-import { CYBOZU_USER_ID, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
+import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
 
 type FormData = {
   host: string
   userName: string
-  userCode: number
   spaceName: string
   count: number
   isMultiThread: boolean
@@ -18,6 +17,8 @@ type FormData = {
 const Popup = () => {
 
   const [message, setMessage] = useState<string>('')
+  const users = [ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME]
+  const [selectedUser, setSelectedUser] = useState<string>(ADMINISTRATOR_USER_NAME)
 
   const {
     register,
@@ -26,9 +27,7 @@ const Popup = () => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      userName: CYBOZU_USER_NAME,
       host: DEFAULT_HOST,
-      userCode: CYBOZU_USER_ID,
       spaceName: 'test',
       count: 1
     }
@@ -59,22 +58,43 @@ const Popup = () => {
       return String(res["id"])
     })
   }
+
+  const userChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue("userName", e.target.value)
+    setSelectedUser(e.target.value)
+  }
   
   return (
     <>
       <form onSubmit={onSubmit}>
-        <ul style={{ minWidth: "700px" }}>
-          <li>ホスト: <input type="text" {...register("host")} /></li>
-          <li>ユーザー名: <input type="text" {...register("userName")} /></li>
-          <li>ユーザーコード: <input type="text" {...register("userCode")} /> ※cybozu: 1000000 / Administrator: 7532782697181632512</li>
-          <li>スペース名: <input type="text" {...register("spaceName")} /></li>
-          <li>作成数: <input type="text" {...register("count")} /></li>
-          <li><input type="checkbox" {...register("isMultiThread")} />マルチスレッド</li>
-          <li><input type="checkbox" {...register("isPrivate")} />非公開</li>
-          <li><input type="checkbox" {...register("isGuest")} />ゲストスペース</li>
+        <div style={{ minWidth: "700px" }}>
+          <div>ホスト: <input type="text" {...register("host")} /></div>
+          <div>ユーザー名:
+              <input 
+                id={ADMINISTRATOR_USER_NAME}
+                type="radio"
+                value={ADMINISTRATOR_USER_NAME}
+                onChange={userChange}
+                checked={ADMINISTRATOR_USER_NAME === selectedUser}
+              />
+              <label htmlFor={ADMINISTRATOR_USER_NAME}>{ADMINISTRATOR_USER_NAME}</label>
+               <input 
+                id={CYBOZU_USER_NAME}
+                type="radio"
+                value={CYBOZU_USER_NAME}
+                onChange={userChange}
+                checked={CYBOZU_USER_NAME === selectedUser}
+              />
+              <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
+          </div>
+          <div>スペース名: <input type="text" {...register("spaceName")} /></div>
+          <div>作成数: <input type="text" {...register("count")} /></div>
+          <div><input type="checkbox" {...register("isMultiThread")} />マルチスレッド</div>
+          <div><input type="checkbox" {...register("isPrivate")} />非公開</div>
+          <div><input type="checkbox" {...register("isGuest")} />ゲストスペース</div>
           <button type="submit">作成</button>
           <p style={{color: 'red'}}>{message}</p>
-        </ul>
+        </div>
       </form >
     </>
   );

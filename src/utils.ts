@@ -3,8 +3,10 @@ export const CONTEXT = 'k'
 export const CONTENT_TYPE_JSON = 'appication/json'
 export const ADMINISTRATOR_X_CYBOZU_AUTHORIZATION = 'QWRtaW5pc3RyYXRvcjpjeWJvenU='
 export const CYBOZU_X_CYBOZU_AHTHORIZATION = 'Y3lib3p1OmN5Ym96dQ=='
-export const CYBOZU_USER_ID = 1000000
+export const CYBOZU_USER_ID = '1000000'
 export const CYBOZU_USER_NAME = 'cybozu'
+export const ADMINISTRATOR_USER_ID = '7532782697181632512'
+export const ADMINISTRATOR_USER_NAME = 'Administrator'
 
 export const fetcher = async (
   resource: RequestInfo,

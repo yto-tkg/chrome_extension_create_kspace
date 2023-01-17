@@ -1,10 +1,9 @@
 import { PostSpaceRes } from "./types/data"
-import { fetcher, DEFAULT_HOST, CONTEXT, CONTENT_TYPE_JSON, X_CYBOZU_AUTHORIZATION, CYBOZU_USER_ID, CYBOZU_USER_NAME, CYBOZU_X_CYBOZU_AHTHORIZATION, ADMINISTRATOR_X_CYBOZU_AUTHORIZATION } from "./utils"
+import { fetcher, DEFAULT_HOST, CONTEXT, CYBOZU_USER_ID, CYBOZU_USER_NAME, CYBOZU_X_CYBOZU_AHTHORIZATION, ADMINISTRATOR_X_CYBOZU_AUTHORIZATION, ADMINISTRATOR_USER_ID } from "./utils"
 
 export type PostSpaceParams = {
   host: string
   userName: string
-  userCode: number
   spaceName: string
   count: number
   isMultiThread: boolean
@@ -22,7 +21,8 @@ const postSpace = async (
   postData: PostSpaceParams
 ): Promise<PostSpaceRes> => {
 
-  const xCybozuAhThorization = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_X_CYBOZU_AHTHORIZATION : ADMINISTRATOR_X_CYBOZU_AUTHORIZATION 
+  const xCybozuAhThorization = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_X_CYBOZU_AHTHORIZATION : ADMINISTRATOR_X_CYBOZU_AUTHORIZATION
+  const userCode = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_USER_ID : ADMINISTRATOR_USER_ID
 
   return await fetcher(`${postData["host"] ?? DEFAULT_HOST}/${CONTEXT}/api/space/add.json`, {
     method: 'POST',
@@ -47,11 +47,11 @@ const postSpace = async (
       isPrivate: postData["isPrivate"] ?? false,
       members: [
         {
-          id: postData["userCode"] ?? CYBOZU_USER_ID,
-          entityId: postData["userCode"] ?? CYBOZU_USER_ID,
-          code: postData["userName"] ?? CYBOZU_USER_NAME,
-          entityName: postData["userName"] ?? CYBOZU_USER_NAME,
-          name: postData["userName"] ?? CYBOZU_USER_NAME,
+          id: userCode,
+          entityId: userCode,
+          code: postData["userName"],
+          entityName: postData["userName"],
+          name: postData["userName"],
           entityType: "USER",
           isAdmin: true,
           isRecursive: false,
