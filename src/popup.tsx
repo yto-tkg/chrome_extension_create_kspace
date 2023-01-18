@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import postSpace from "./postSpace";
 import { PostSpaceRes } from "./types/data";
 import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
-import { countValidateRules } from "./validateRules";
+import { countValidateRules, nameValidateRules } from "./validateRules";
 
 type FormData = {
   host: string
@@ -88,7 +88,10 @@ const Popup = () => {
             />
             <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
           </div>
-          <div>スペース名: <input type="text" {...register("spaceName")} /></div>
+          <div>スペース名: 
+            <input type="text" {...register("spaceName", nameValidateRules)} />
+            <div style={{color: 'red'}}>{errors.spaceName && errors.spaceName.message}</div>
+          </div>
           <div>作成数: 
             <input type="text" {...register("count", countValidateRules)} />
             <div style={{color: 'red'}}>{errors.count && errors.count.message}</div>
