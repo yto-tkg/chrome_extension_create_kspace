@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import postSpace from "./postSpace";
 import { PostSpaceRes } from "./types/data";
 import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
+import { countValidateRules } from "./validateRules";
 
 type FormData = {
   host: string
@@ -38,17 +39,17 @@ const Popup = () => {
 
     const spaceName = data["spaceName"]
     let resCount = 0
-    for(let i = 1; i <= data["count"]; i++) {
+    for (let i = 1; i <= data["count"]; i++) {
       data["spaceName"] = spaceName + i
       await postSpaceFetch(data).then((res) => {
-        if(!res) {
+        if (!res) {
           setMessage('スペースの作成に失敗しました')
         } else {
           resCount++
           resCount == data["count"] && setMessage('スペースの作成が完了しました')
         }
       }).catch(err => {
-          setMessage('スペースの作成に失敗しました')
+        setMessage('スペースの作成に失敗しました')
       })
     }
   })
@@ -63,37 +64,40 @@ const Popup = () => {
     setValue("userName", e.target.value)
     setSelectedUser(e.target.value)
   }
-  
+
   return (
     <>
       <form onSubmit={onSubmit}>
         <div style={{ minWidth: "700px" }}>
           <div>ホスト: <input type="text" {...register("host")} /></div>
-          <div>ユーザー名:
-              <input 
-                id={ADMINISTRATOR_USER_NAME}
-                type="radio"
-                value={ADMINISTRATOR_USER_NAME}
-                onChange={userChange}
-                checked={ADMINISTRATOR_USER_NAME === selectedUser}
-              />
-              <label htmlFor={ADMINISTRATOR_USER_NAME}>{ADMINISTRATOR_USER_NAME}</label>
-               <input 
-                id={CYBOZU_USER_NAME}
-                type="radio"
-                value={CYBOZU_USER_NAME}
-                onChange={userChange}
-                checked={CYBOZU_USER_NAME === selectedUser}
-              />
-              <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
+          <div>ユーザー:
+            <input
+              id={ADMINISTRATOR_USER_NAME}
+              type="radio"
+              value={ADMINISTRATOR_USER_NAME}
+              onChange={userChange}
+              checked={ADMINISTRATOR_USER_NAME === selectedUser}
+            />
+            <label htmlFor={ADMINISTRATOR_USER_NAME}>{ADMINISTRATOR_USER_NAME}</label>
+            <input
+              id={CYBOZU_USER_NAME}
+              type="radio"
+              value={CYBOZU_USER_NAME}
+              onChange={userChange}
+              checked={CYBOZU_USER_NAME === selectedUser}
+            />
+            <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
           </div>
           <div>スペース名: <input type="text" {...register("spaceName")} /></div>
-          <div>作成数: <input type="text" {...register("count")} /></div>
+          <div>作成数: 
+            <input type="text" {...register("count", countValidateRules)} />
+            <div style={{color: 'red'}}>{errors.count && errors.count.message}</div>
+          </div>
           <div><input type="checkbox" {...register("isMultiThread")} />マルチスレッド</div>
           <div><input type="checkbox" {...register("isPrivate")} />非公開</div>
           <div><input type="checkbox" {...register("isGuest")} />ゲストスペース</div>
           <button type="submit">作成</button>
-          <p style={{color: 'red'}}>{message}</p>
+          <p style={{ color: 'red' }}>{message}</p>
         </div>
       </form >
     </>
