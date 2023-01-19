@@ -24,7 +24,7 @@ const postSpace = async (
   const xCybozuAhThorization = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_X_CYBOZU_AHTHORIZATION : ADMINISTRATOR_X_CYBOZU_AUTHORIZATION
   const userCode = postData["userName"] == CYBOZU_USER_NAME ? CYBOZU_USER_ID : ADMINISTRATOR_USER_ID
 
-  return await fetcher(`${postData["host"] ?? DEFAULT_HOST}/${CONTEXT}/api/space/add.json`, {
+  return await fetcher(`${DEFAULT_HOST}/${CONTEXT}/api/space/add.json`, {
     method: 'POST',
     headers: {
       Origin: '*',

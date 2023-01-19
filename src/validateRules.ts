@@ -6,5 +6,5 @@ export const nameValidateRules = {
 
 export const countValidateRules = {
   required: '必須です',
-  pattern: { value: /^\d{2}$/, message: '2桁以内の数字を入力してください' }
+  pattern: { value: /^[0-9]{1,2}$/, message: '2桁以内の数字を入力してください' }
 }

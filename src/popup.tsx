@@ -10,6 +10,7 @@ type FormData = {
   host: string
   userName: string
   spaceName: string
+  isIncliment: boolean
   count: number
   isMultiThread: boolean
   isPrivate: boolean
@@ -40,7 +41,9 @@ const Popup = () => {
     const spaceName = data["spaceName"]
     let resCount = 0
     for (let i = 1; i <= data["count"]; i++) {
-      data["spaceName"] = spaceName + i
+      if (data["isIncliment"]) {
+        data["spaceName"] = spaceName + i
+      }
       await postSpaceFetch(data).then((res) => {
         if (!res) {
           setMessage('スペースの作成に失敗しました')
@@ -74,8 +77,8 @@ const Popup = () => {
     <>
       <form onSubmit={onSubmit}>
         <div style={{ minWidth: "700px" }}>
-          <div>ホスト: <input type="text" {...register("host")} /></div>
-          <div>ユーザー:
+          <div>ホスト: {DEFAULT_HOST}</div>
+          <div>ユーザー:<span style={{color: 'red'}}>*</span>
             <input
               id={ADMINISTRATOR_USER_NAME}
               type="radio"
@@ -94,11 +97,12 @@ const Popup = () => {
             <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
             <div style={{color: 'red'}}>{userValidate}</div>
           </div>
-          <div>スペース名: 
+          <div>スペース名: <span style={{color: 'red'}}>*</span>
             <input type="text" {...register("spaceName", nameValidateRules)} />
             <div style={{color: 'red'}}>{errors.spaceName && errors.spaceName.message}</div>
+            <div style={{marginLeft: '3px'}}><input type="checkbox" {...register("isIncliment")} />スペース名をインクリメントする</div>
           </div>
-          <div>作成数: 
+          <div>作成数: <span style={{color: 'red'}}>*</span>
             <input type="text" {...register("count", countValidateRules)} />
             <div style={{color: 'red'}}>{errors.count && errors.count.message}</div>
           </div>
