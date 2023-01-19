@@ -18,8 +18,8 @@ type FormData = {
 const Popup = () => {
 
   const [message, setMessage] = useState<string>('')
-  const users = [ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME]
   const [selectedUser, setSelectedUser] = useState<string>(ADMINISTRATOR_USER_NAME)
+  const [userValidate, setUserValidate] = useState<string>('')
 
   const {
     register,
@@ -61,8 +61,13 @@ const Popup = () => {
   }
 
   const userChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue("userName", e.target.value)
-    setSelectedUser(e.target.value)
+    const selected = e.target.value 
+    if (selected !== ADMINISTRATOR_USER_NAME && selected !== CYBOZU_USER_NAME) {
+      setUserValidate('Administrator又はcybozuを選択してください')
+    }
+
+    setValue("userName", selected)
+    setSelectedUser(selected)
   }
 
   return (
@@ -87,6 +92,7 @@ const Popup = () => {
               checked={CYBOZU_USER_NAME === selectedUser}
             />
             <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
+            <div style={{color: 'red'}}>{userValidate}</div>
           </div>
           <div>スペース名: 
             <input type="text" {...register("spaceName", nameValidateRules)} />
