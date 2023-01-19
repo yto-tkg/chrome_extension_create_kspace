@@ -76,7 +76,8 @@ const Popup = () => {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <div style={{ minWidth: "700px" }}>
+        <div style={{ minWidth: "300px" }}>
+          <div style={{ fontWeight: "bold", fontSize: "x-large" }}>スペース</div>
           <div>ホスト: {DEFAULT_HOST}</div>
           <div>ユーザー:<span style={{ color: 'red' }}>*</span>
             <input
@@ -100,7 +101,7 @@ const Popup = () => {
           <div>スペース名: <span style={{ color: 'red' }}>*</span>
             <input type="text" {...register("spaceName", nameValidateRules)} />
             <div style={{ color: 'red' }}>{errors.spaceName && errors.spaceName.message}</div>
-            <div style={{ marginLeft: '3px' }}><input type="checkbox" {...register("isIncliment")} />スペース名に添字+1を付与する</div>
+            <div style={{ marginLeft: '3px' }}><input type="checkbox" {...register("isIncliment")} />スペース名に添字+1を付与する(i.e. 1,...,n)</div>
           </div>
           <div>作成数: <span style={{ color: 'red' }}>*</span>
             <input type="text" {...register("count", countValidateRules)} />
@@ -109,10 +110,10 @@ const Popup = () => {
           <div><input type="checkbox" {...register("isMultiThread")} />マルチスレッド</div>
           <div><input type="checkbox" {...register("isPrivate")} />非公開</div>
           <div><input type="checkbox" {...register("isGuest")} />ゲストスペース</div>
-          <button type="submit">作成</button>
+          <button type="submit">スペースを作成</button>
           <p style={{ color: 'red' }}>{message}</p>
         </div>
-      </form >
+      </form>
     </>
   );
 };
