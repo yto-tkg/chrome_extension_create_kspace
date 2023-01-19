@@ -64,7 +64,7 @@ const Popup = () => {
   }
 
   const userChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selected = e.target.value 
+    const selected = e.target.value
     if (selected !== ADMINISTRATOR_USER_NAME && selected !== CYBOZU_USER_NAME) {
       setUserValidate('Administrator又はcybozuを選択してください')
     }
@@ -78,7 +78,7 @@ const Popup = () => {
       <form onSubmit={onSubmit}>
         <div style={{ minWidth: "700px" }}>
           <div>ホスト: {DEFAULT_HOST}</div>
-          <div>ユーザー:<span style={{color: 'red'}}>*</span>
+          <div>ユーザー:<span style={{ color: 'red' }}>*</span>
             <input
               id={ADMINISTRATOR_USER_NAME}
               type="radio"
@@ -95,16 +95,16 @@ const Popup = () => {
               checked={CYBOZU_USER_NAME === selectedUser}
             />
             <label htmlFor={CYBOZU_USER_NAME}>{CYBOZU_USER_NAME}</label>
-            <div style={{color: 'red'}}>{userValidate}</div>
+            <div style={{ color: 'red' }}>{userValidate}</div>
           </div>
-          <div>スペース名: <span style={{color: 'red'}}>*</span>
+          <div>スペース名: <span style={{ color: 'red' }}>*</span>
             <input type="text" {...register("spaceName", nameValidateRules)} />
-            <div style={{color: 'red'}}>{errors.spaceName && errors.spaceName.message}</div>
-            <div style={{marginLeft: '3px'}}><input type="checkbox" {...register("isIncliment")} />スペース名をインクリメントする</div>
+            <div style={{ color: 'red' }}>{errors.spaceName && errors.spaceName.message}</div>
+            <div style={{ marginLeft: '3px' }}><input type="checkbox" {...register("isIncliment")} />スペース名に添字+1を付与する</div>
           </div>
-          <div>作成数: <span style={{color: 'red'}}>*</span>
+          <div>作成数: <span style={{ color: 'red' }}>*</span>
             <input type="text" {...register("count", countValidateRules)} />
-            <div style={{color: 'red'}}>{errors.count && errors.count.message}</div>
+            <div style={{ color: 'red' }}>{errors.count && errors.count.message}</div>
           </div>
           <div><input type="checkbox" {...register("isMultiThread")} />マルチスレッド</div>
           <div><input type="checkbox" {...register("isPrivate")} />非公開</div>
