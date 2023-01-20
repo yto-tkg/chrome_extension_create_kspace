@@ -29,13 +29,12 @@ const SpaceForm = () => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      host: DEFAULT_HOST,
       spaceName: 'test',
       count: 1
     }
   });
 
-  const onSpaceSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setMessage('スペースを作成中...')
 
     const spaceName = data["spaceName"]
@@ -75,7 +74,7 @@ const SpaceForm = () => {
 
   return (
     <>
-      <form onSubmit={onSpaceSubmit}>
+      <form onSubmit={onSubmit}>
         <div style={{ fontWeight: "bold", fontSize: "x-large" }}>スペース</div>
         <div>ホスト: {DEFAULT_HOST}</div>
         <div>ユーザー:<span style={{ color: 'red' }}>*</span>
