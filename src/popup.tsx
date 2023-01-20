@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
+import AppForm from "./postAppForm";
 import postSpace from "./postSpace";
 import SpaceForm from "./postSpaceForm";
 import { PostSpaceRes } from "./types/data";
@@ -22,6 +23,7 @@ const Popup = () => {
     <>
       <div style={{ minWidth: "300px" }}>
         <SpaceForm />
+        <AppForm />
       </div>
     </>
   );
