@@ -2,17 +2,15 @@ import { PostSpaceRes } from "./types/data"
 import { fetcher, DEFAULT_HOST, CONTEXT, CYBOZU_USER_ID, CYBOZU_USER_NAME, CYBOZU_X_CYBOZU_AHTHORIZATION, ADMINISTRATOR_X_CYBOZU_AUTHORIZATION, ADMINISTRATOR_USER_ID } from "./utils"
 
 export type PostSpaceParams = {
-  host: string
   userName: string
   spaceName: string
-  count: number
   isMultiThread: boolean
   isPrivate: boolean
   isGuest: boolean
 }
 
 /**
- * POST /k/v1/template/space.json
+ * POST /k/api/space/add.json
  *
  * @param PostSpaceParams
  * @returns Promise
