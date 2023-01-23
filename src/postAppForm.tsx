@@ -47,9 +47,7 @@ const AppForm = () => {
         data["appName"] = appName + i
       }
       await addAppFetch(data).then(async (res) => {
-        console.log('res: ', res)
         if (!res) {
-          alert('1')
           setMessage('アプリの作成に失敗しました')
         } else {
           const deployData = {
@@ -58,7 +56,6 @@ const AppForm = () => {
           }
           await deployAppFetch(deployData).then((deployRes) => {
             if (!deployRes) {
-              alert('2')
               setMessage('アプリの作成に失敗しました')
             } else {
               resCount++
@@ -68,7 +65,6 @@ const AppForm = () => {
           })  
         }
       }).catch(err => {
-        alert('3')
         setMessage('アプリの作成に失敗しました')
       })
     }
