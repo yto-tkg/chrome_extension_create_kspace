@@ -43,7 +43,7 @@ const AppForm = () => {
     const appName = data["appName"]
     let resCount = 0
     for (let i = 1; i <= data["count"]; i++) {
-      await wait(1000)
+      //await wait(1000)
       if (data["isIncliment"]) {
         data["appName"] = appName + i
       }
@@ -55,7 +55,7 @@ const AppForm = () => {
             appId: res,
             userName: data["userName"]
           }
-          await wait(1000)
+          //await wait(1000)
           await deployAppFetch(deployData).then((deployRes) => {
             if (!deployRes) {
               setMessage('アプリの作成に失敗しました')
