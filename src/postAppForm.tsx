@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
-import  deployApp, { DeployAppParams } from "./deployApp";
+import deployApp, { DeployAppParams } from "./deployApp";
 import addApp from "./addApp";
 import { AddAppRes, AddAppResObject, DeployAppRes, PostSpaceRes } from "./types/data";
-import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
+import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST, wait } from "./utils";
 import { countValidateRules, nameValidateRules } from "./validateRules";
 
 type FormData = {
@@ -43,6 +43,7 @@ const AppForm = () => {
     const appName = data["appName"]
     let resCount = 0
     for (let i = 1; i <= data["count"]; i++) {
+      await wait(1000)
       if (data["isIncliment"]) {
         data["appName"] = appName + i
       }
@@ -54,6 +55,7 @@ const AppForm = () => {
             appId: res,
             userName: data["userName"]
           }
+          await wait(1000)
           await deployAppFetch(deployData).then((deployRes) => {
             if (!deployRes) {
               setMessage('アプリの作成に失敗しました')
@@ -62,7 +64,7 @@ const AppForm = () => {
               resCount == data["count"] && setMessage('アプリの作成が完了しました')
 
             }
-          })  
+          })
         }
       }).catch(err => {
         setMessage('アプリの作成に失敗しました')
@@ -74,8 +76,8 @@ const AppForm = () => {
     return await addApp(data).then((res: AddAppRes) => {
       return res["result"]
     }).then(((res: AddAppResObject) => {
-        return res["appId"]
-      }))
+      return res["appId"]
+    }))
   }
 
   const deployAppFetch = async (data: DeployAppParams): Promise<boolean> => {

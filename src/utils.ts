@@ -29,3 +29,7 @@ export const fetcher = async (
 
   return resJson
 }
+
+export const wait = (delay: number) => {
+  return new Promise(res => setTimeout(res, delay))
+}
