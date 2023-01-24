@@ -23,7 +23,7 @@ const Popup = () => {
     <>
       <div style={{ minWidth: "300px" }}>
         <SpaceForm />
-        <AppForm />
+        //<AppForm />
       </div>
     </>
   );
