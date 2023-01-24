@@ -1,12 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { useForm } from "react-hook-form";
 import AppForm from "./postAppForm";
-import postSpace from "./postSpace";
 import SpaceForm from "./postSpaceForm";
-import { PostSpaceRes } from "./types/data";
-import { ADMINISTRATOR_USER_NAME, CYBOZU_USER_NAME, DEFAULT_HOST } from "./utils";
-import { countValidateRules, nameValidateRules } from "./validateRules";
 
 type FormData = {
   host: string
@@ -18,6 +13,7 @@ type FormData = {
   isPrivate: boolean
   isGuest: boolean
 }
+
 const Popup = () => {
   return (
     <>
